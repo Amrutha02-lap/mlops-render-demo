@@ -9,7 +9,8 @@ with open("model.pkl", "rb") as f:
 app = FastAPI()
 
 class InputData(BaseModel):
-    value: float
+    features: list[float]
+
 
 @app.get("/")
 def health():
@@ -17,5 +18,6 @@ def health():
 
 @app.post("/predict")
 def predict(data: InputData):
-    prediction = model.predict([[data.value]])
+    prediction = model.predict([data.features])
     return {"prediction": prediction[0]}
+
